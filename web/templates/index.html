@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}"/>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{google_maps_api_key}}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script type="text/javascript">
+      CRASHES = {{ crashes|tojson }};
+    </script>
+  </head>
+  <body>
+    <h3>Boston Crashes</h3>
+    <a href="https://data.boston.gov/dataset/vision-zero-crash-records">Source Data</a>
+    <div id="map"></div>
+    <div>
+      <p><b>Type:</b></p>
+      <input id="mvCheckbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="mvCheckbox">Motor Vehicle</label>
+      <input id="pedCheckbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="mvCheckbox">Pedestrian</label>
+      <input id="bikeCheckbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="mvCheckbox">Bike</label>
+    </div>
+    <div>
+      <p><b>Year:</b></p>
+      <input id="y2015Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="year2015Checkbox">2015</label>
+      <input id="y2016Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="2016Checkbox">2016</label>
+      <input id="y2017Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="y2017Checkbox">2017</label>
+      <input id="y2018Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="y2018Checkbox">2018</label>
+    </div>
+    <div>
+      <p><b>Month:</b></p>
+      <input id="m0Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m0Checkbox">Jan</label>
+      <input id="m1Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m1Checkbox">Feb</label>
+      <input id="m2Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m2Checkbox">March</label>
+      <input id="m3Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m3Checkbox">April</label>
+      <input id="m4Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m4Checkbox">May</label>
+      <input id="m5Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m5Checkbox">June</label>
+      <input id="m6Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m6Checkbox">July</label>
+      <input id="m7Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m7Checkbox">Aug</label>
+      <input id="m8Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m8Checkbox">Sept</label>
+      <input id="m9Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m9Checkbox">Oct</label>
+      <input id="m10Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m10Checkbox">Nov</label>
+      <input id="m11Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="m11Checkbox">Dec</label>
+    </div>
+    <div>
+      <p><b>Day of Week:</b></p>
+      <input id="d0Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d0Checkbox">Sunday</label>
+      <input id="d1Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d1Checkbox">Monday</label>
+      <input id="d2Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d2Checkbox">Tuesday</label>
+      <input id="d3Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d3Checkbox">Wednesday</label>
+      <input id="d4Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d4Checkbox">Thursday</label>
+      <input id="d5Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d5Checkbox">Friday</label>
+      <input id="d6Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="d6Checkbox">Saturday</label>
+    </div>
+    <div>
+      <p><b>Time:</b></p>
+      <input id="h0Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h0Checkbox">0:00</label>
+      <input id="h1Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h1Checkbox">1:00</label>
+      <input id="h2Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h2Checkbox">2:00</label>
+      <input id="h3Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h3Checkbox">3:00</label>
+      <input id="h4Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h4Checkbox">4:00</label>
+      <input id="h5Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h5Checkbox">5:00</label>
+      <input id="h6Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h6Checkbox">6:00</label>
+      <input id="h7Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h7Checkbox">7:00</label>
+      <input id="h8Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h8Checkbox">8:00</label>
+      <input id="h9Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h9Checkbox">9:00</label>
+      <input id="h10Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h10Checkbox">10:00</label>
+      <input id="h11Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h11Checkbox">11:00</label>
+      <input id="h12Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h12Checkbox">12:00</label>
+      <input id="h13Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h13Checkbox">13:00</label>
+      <input id="h14Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h14Checkbox">14:00</label>
+      <input id="h15Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h15Checkbox">15:00</label>
+      <input id="h16Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h16Checkbox">16:00</label>
+      <input id="h17Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h17Checkbox">17:00</label>
+      <input id="h18Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h18Checkbox">18:00</label>
+      <input id="h19Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h19Checkbox">19:00</label>
+      <input id="h20Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h20Checkbox">20:00</label>
+      <input id="h21Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h21Checkbox">21:00</label>
+      <input id="h22Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h22Checkbox">22:00</label>
+      <input id="h23Checkbox" type="checkbox" onclick="toggleGroup()" checked="checked"></input>
+      <label for="h23Checkbox">23:00</label>
+    </div>
+    <script type="text/javascript">
+      initMap(CRASHES)
+    </script>
+  </body>
+</html>
