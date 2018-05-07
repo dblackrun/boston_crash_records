@@ -2,6 +2,8 @@
 
 Mapping crash records from the city of Boston's open data. Source data can be found [here](https://data.boston.gov/dataset/vision-zero-crash-records)
 
+View app [here](https://boston-crash-map.herokuapp.com/)
+
 * Clone the repository
 
 ```
