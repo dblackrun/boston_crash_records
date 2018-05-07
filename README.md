@@ -18,13 +18,7 @@ cd boston_crash_records
 vi config.json
 ```
 
-* Add API key
-
-```
-{
-  "google_maps_api_key": YOUR_API_KEY
-}
-```
+* Add API key as environment variable named GOOGLE_MAPS_API_KEY
 
 * Create virtualenv
 
